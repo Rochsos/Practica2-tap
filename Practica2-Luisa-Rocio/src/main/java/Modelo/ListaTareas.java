@@ -1,4 +1,3 @@
-/*
 package Modelo;
 
 import javax.persistence.Entity;
@@ -49,4 +48,3 @@ public class ListaTareas {
 		IdUsuario = idUsuario;
 	}
 }
-*/

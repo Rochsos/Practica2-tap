@@ -1,4 +1,3 @@
-/*
 package Modelo;
 
 import javax.persistence.Entity;
@@ -45,7 +44,5 @@ public class Usuario {
 	public void setContrasenia(String contrasenia) {
 		Contrasenia = contrasenia;
 	}
-	
-	
+		
 }
-*/
