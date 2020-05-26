@@ -1,4 +1,3 @@
-/*
 package Modelo;
 
 import java.sql.Date;
@@ -88,4 +87,3 @@ public class Tarea {
 	
 	
 }
-*/

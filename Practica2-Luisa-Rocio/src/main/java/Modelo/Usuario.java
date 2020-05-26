@@ -1,4 +1,3 @@
-/*
 package Modelo;
 
 import javax.persistence.Entity;
@@ -46,6 +45,10 @@ public class Usuario {
 		Contrasenia = contrasenia;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return String.format("Usuario[IdUsuario=%d, Nombre='%s', Contrasenia='%s']", IdUsuario,
+				Nombre, Contrasenia);
+	}
+		
 }
-*/
