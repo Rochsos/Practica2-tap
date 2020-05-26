@@ -44,5 +44,11 @@ public class Usuario {
 	public void setContrasenia(String contrasenia) {
 		Contrasenia = contrasenia;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("Usuario[IdUsuario=%d, Nombre='%s', Contrasenia='%s']", IdUsuario,
+				Nombre, Contrasenia);
+	}
 		
 }
