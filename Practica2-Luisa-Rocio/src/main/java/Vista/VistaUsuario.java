@@ -1,111 +1,86 @@
-/*
-package Vista;
+/*package Vista;
+
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.QueryLookupStrategy.Key;
+import org.springframework.stereotype.Service;
 
 import com.vaadin.data.Binder;
-
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.icons.*;
 
 import Modelo.Usuario;
 import Repositorio.RepositorioUsuario;
 
-
-public class VistaUsuario extends VerticalLayout implements KeyNotifier {
+public class VistaUsuario extends VerticalLayout {
 	
 	private final RepositorioUsuario repositorioUsuario;
-
-	private Usuario usuario;
-
-	TextField nombre = new TextField("Nombre de usuario: ");
-	TextField contrasenia = new TextField("Contraseña: ");
-
-
-	Button guardar = new Button("Guardar", VaadinIcon.CHECK.create());
-	Button cancelar = new Button("Cancelar");
-	Button borrar = new Button("Borrar", VaadinIcon.TRASH.create());
-	HorizontalLayout acciones = new HorizontalLayout(guardar, cancelar, borrar);
-
-	Binder<Usuario> binder = new Binder<>(Usuario.class);
-	private ChangeHandler changeHandler;
-
-	@Autowired
-	public VistaUsuario(RepositorioUsuario repositorioUsuario) {
+	private final UsuarioEditor editorUsuario;
+	
+	final Grid<Usuario> gridUsuario;
+	
+	final TextField filter;
+	
+	private final Button addNewButton;
+	
+	public VistaUsuario(RepositorioUsuario repositorioUsuario, UsuarioEditor editorUsuario) {
 		this.repositorioUsuario = repositorioUsuario;
+		this.editorUsuario = editorUsuario;
+		this.gridUsuario = new Grid<>(Usuario.class);
+		this.filter = new TextField();
+		this.addNewButton = new Button("Nuevo Usuario", VaadinIcon.PLUS.create());
 
-		add(nombre, contrasenia, acciones);
+		// build layout
+		HorizontalLayout actions = new HorizontalLayout(filter, addNewButton);
+		add(actions, gridUsuario, editorUsuario);
 
-		// bind using naming convention
-		binder.bindInstanceFields(this);
+		gridUsuario.setHeight("300px");
+		gridUsuario.setColumns("IdUsuario", "Nombre", "Email");
+		gridUsuario.getColumnByKey("IdUsuario").setWidth("50px").setFlexGrow(0);
 
-		// Configure and style components
-		setSpacing(true);
+		filter.setPlaceholder("Filtrar por nombre");
+		
+		// Hook logic to components
 
-		guardar.getElement().getThemeList().add("primary");
-		borrar.getElement().getThemeList().add("error");
-
-
-		// wire action buttons to save, delete and reset
-		guardar.addClickListener(e -> guardar());
-		borrar.addClickListener(e -> borrar());
-		cancelar.addClickListener(e -> cancelar());
-		setVisible(false);
-	}
-
-	void borrar() {
-		repositorioUsuario.delete(usuario);
-		changeHandler.onChange();
-	}
-
-	void guardar() {
-		repositorioUsuario.save(usuario);
-		changeHandler.onChange();
+		// Replace listing with filtered content when user changes filter
+		filter.setValueChangeMode(ValueChangeMode.EAGER);
+		filter.addValueChangeListener(e -> listaUsuarios(e.getValue()));
+	
+		// Connect selected Customer to editor or hide if none is selected
+		gridUsuario.asSingleSelect().addValueChangeListener(e -> {
+			editorUsuario.editarUsuario(e.getValue());
+		});
+	
+		// Instantiate and edit new Customer the new button is clicked
+		addNewButton.addClickListener(e -> editorUsuario.editarUsuario(new Usuario("", "", "")));
+	
+		// Listen changes made by the editor, refresh data from backend
+		editorUsuario.setChangeHandler(() -> {
+			editor.setVisible(false);
+			listaUsuarios(filter.getValue());
+		});
+	
+		// Initialize listing
+		listaUsuarios(null);
 	}
 	
-	void Cancelar()
+	void listaUsuarios(String filterText)
 	{
-		setVisible(false);
+		gridUsuario.setItems(repositorioUsuario.findAll());
 	}
-
-	public interface ChangeHandler {
-		void onChange();
-	}
-
-	public final void editUsuario(Usuario u) {
-		if (u == null) {
-			setVisible(false);
-			return;
+	
+	@Service
+	public static class MyService
+	{
+		public String sayHi()
+		{
+			return "Hello there" + LocalDateTime.now();
 		}
-		final boolean persisted = u.getIdUsuario() != null;
-		if (persisted) {
-			// Find fresh entity for editing
-			usuario = repositorioUsuario.findById(u.getIdUsuario()).get();
-		}
-		else {
-			usuario = u;
-		}
-		cancelar.setVisible(persisted);
-
-		// Bind customer properties to similarly named fields
-		// Could also use annotation or "manual binding" or programmatically
-		// moving values from fields to entities before saving
-		binder.setBean(usuario);
-
-		setVisible(true);
-
-		// Focus first name initially
-		nombre.focus();
 	}
-
-	public void setChangeHandler(ChangeHandler h) {
-		// ChangeHandler is notified when either save or delete
-		// is clicked
-		changeHandler = h;
-	}
-}
-*/
+}*/
