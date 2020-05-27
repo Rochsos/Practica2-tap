@@ -21,17 +21,15 @@ public class Tarea {
 	private String Prioridad;
 	private Date Deadline;
 	private String EstadoTarea;
-	private String IdLista;
+	private Long IdLista;
 	
 	// Constructor
-	public Tarea(String nombre, String descripcion, String prioridad, Date deadline, String estadoTarea,
-			String idLista) {
+	public Tarea(String nombre, String descripcion, String prioridad, String estadoTarea,
+			Long idLista) {
 		this.Nombre = nombre;
 		this.Descripcion = descripcion;
 		this.Prioridad = prioridad;
-		this.Deadline = deadline;
 		this.EstadoTarea = estadoTarea;
-		this.IdLista = idLista;
 	}
 	
 	// Getters y setters
@@ -78,10 +76,10 @@ public class Tarea {
 		EstadoTarea = estadoTarea;
 	}
 	
-	public String getIdLista() {
+	public Long getIdLista() {
 		return IdLista;
 	}
-	public void setIdLista(String idLista) {
+	public void setIdLista(Long idLista) {
 		IdLista = idLista;
 	}
 	
