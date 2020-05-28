@@ -1,37 +1,53 @@
+// Clase que define los campos y atributos de la tabla tarea de nuestra base de datos
 package Modelo;
 
+import java.io.Serializable;
 import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import org.springframework.data.annotation.Id;
 
 @Entity
-public class Tarea {
+@Table(name = "tarea")
+public class Tarea implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private static final long serialVersionUID = 1L;
 	
 	// Variables
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long IdTarea;
-	private String Nombre;
+	@Column(name = "nombre")
+	private String nombre;
+	@Column(name = "Descripcion")
 	private String Descripcion;
+	@Column(name = "Prioridad")
 	private String Prioridad;
+	@Column(name = "DeadLine")
 	private Date Deadline;
+	@Column(name = "EstadoTarea")
 	private String EstadoTarea;
-	private String IdLista;
+	@Column(name = "IdLista")
+	private Long IdLista;
+	
+	
+	public Tarea() {
+		super();
+	}
 	
 	// Constructor
-	public Tarea(String nombre, String descripcion, String prioridad, Date deadline, String estadoTarea,
-			String idLista) {
-		this.Nombre = nombre;
+	public Tarea(String nombre, String descripcion, String prioridad, String estadoTarea,
+			Long idLista) {
+		super();
+		this.nombre = nombre;
 		this.Descripcion = descripcion;
 		this.Prioridad = prioridad;
-		this.Deadline = deadline;
 		this.EstadoTarea = estadoTarea;
-		this.IdLista = idLista;
 	}
 	
 	// Getters y setters
@@ -44,10 +60,10 @@ public class Tarea {
 	}
 	
 	public String getNombre() {
-		return Nombre;
+		return nombre;
 	}
 	public void setNombre(String nombre) {
-		Nombre = nombre;
+		this.nombre = nombre;
 	}
 	
 	public String getDescripcion() {
@@ -78,10 +94,10 @@ public class Tarea {
 		EstadoTarea = estadoTarea;
 	}
 	
-	public String getIdLista() {
+	public Long getIdLista() {
 		return IdLista;
 	}
-	public void setIdLista(String idLista) {
+	public void setIdLista(Long idLista) {
 		IdLista = idLista;
 	}
 	
