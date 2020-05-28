@@ -1,14 +1,19 @@
 package Controlador;
 
+import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,9 +24,63 @@ import Modelo.ListaTareas;
 import Repositorio.RepositorioLista;
 
 @RestController
-@RequestMapping("/lista")
+@RequestMapping("/ListaTareas")
 public class ControladorListaTarea {
 
+	@Autowired
+	private RepositorioLista repositorioLista;
+
+	// Get All Users
+    // URL: http://localhost:8080/api/users/1
+    @GetMapping("/lista_tareas")
+    public List<ListaTareas> getAllLista() {
+        return repositorioLista.findAll();
+    }
+ 
+    // Create a new User
+    // URL: http://localhost:8080/api/createUser
+    // Object json: {"name":"Rosa3333","username":"Marfi3333l"}
+    @PostMapping("/createLista")
+    public ListaTareas createLista(@Valid @RequestBody ListaTareas listaTareas) {
+        return repositorioLista.save(listaTareas);
+    }
+ 
+    // Get a User by id
+    // URL: http://localhost:8080/api/users/1
+    @GetMapping("/listaTareas/{id}")
+    public ListaTareas getNoteById(@PathVariable(value = "id") Long id) {
+        return repositorioLista.findById(id).orElse(null);
+    }
+ 
+    // Update a User
+    // URL: http://localhost:8080/api/updateUser/1
+    // Object json: {"name":"RosaUpdate","username":"Marfil"}
+    @PutMapping("/updateUser/{id}")
+    public ListaTareas updateLista(@PathVariable(value = "id") Long id, @Valid @RequestBody ListaTareas listaDetails) {
+ 
+    	ListaTareas listaTareas = repositorioLista.findById(id).orElse(null);
+ 
+    	listaTareas.setNombre(listaDetails.getNombre());
+    	listaTareas.setIdUsuario(listaDetails.getIdUsuario());
+ 
+    	ListaTareas updatedNote = repositorioLista.save(listaTareas);
+        return updatedNote;
+    }
+ 
+    // Delete a User
+    // URL: http://localhost:8080/api/deleteUser/6
+    @DeleteMapping("/deleteLista/{id}")
+    public ResponseEntity<?> deleteLista(@PathVariable(value = "id") Long id) {
+         
+    	ListaTareas note = repositorioLista.findById(id).orElse(null);
+ 
+        repositorioLista.delete(note);
+ 
+        return ResponseEntity.ok().build();
+    }
+    
+    
+	/*
 	@Autowired
 	private RepositorioLista repositorioLista;
 
@@ -82,4 +141,5 @@ public class ControladorListaTarea {
 	
 	    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
 	}
+	*/
 }

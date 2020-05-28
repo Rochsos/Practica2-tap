@@ -69,7 +69,7 @@ public class VistaListaTarea extends VerticalLayout{
 			grid.setItems(repositorioLista.findAll());
 		}
 		else {
-			grid.setItems(repositorioLista.FindByName(filterText));
+			grid.setItems(repositorioLista.findBynombre(filterText));
 		}
 	}
 }
