@@ -1,27 +1,40 @@
+// Clase que define los campos y atributos de la tabla lista_tareas de nuestra base de datos
 package Modelo;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import org.springframework.data.annotation.Id;
 
 @Entity
-public class ListaTareas {
+@Table(name = "lista_tareas")
+public class ListaTareas implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private static final long serialVersionUID = 1L;
 	
 	// Variables
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long IdListaTareas;
-	private String NombreLista;
+	@Column(name = "nombre")
+	private String nombre;
+	@Column(name = "IdUsuario")
 	private Long IdUsuario;
 	
 	
-	// Constructor
-	public ListaTareas(String nombreLista, Long idUsuario) {
+	public ListaTareas() {
 		super();
-		NombreLista = nombreLista;
+	}
+	
+	// Constructor
+	public ListaTareas(String nombre, Long idUsuario) {
+		super();
+		this.nombre = nombre;
 		IdUsuario = idUsuario;
 	}
 	
@@ -34,11 +47,11 @@ public class ListaTareas {
 		IdListaTareas = idListaTareas;
 	}
 	
-	public String getNombreLista() {
-		return NombreLista;
+	public String getNombre() {
+		return nombre;
 	}
-	public void setNombreLista(String nombreLista) {
-		NombreLista = nombreLista;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 	
 	public Long getIdUsuario() {
