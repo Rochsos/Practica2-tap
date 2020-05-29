@@ -1,3 +1,4 @@
+
 package Vista;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.QueryLookupStrategy.Key;
@@ -25,6 +26,7 @@ public class UsuarioEditor extends VerticalLayout implements KeyNotifier {
 	HorizontalLayout acciones = new HorizontalLayout(guardar, cancelar, borrar);
 	Binder<Usuario> binder = new Binder<>(Usuario.class);
 	private ChangeHandler changeHandler;
+	
 	@Autowired
 	public UsuarioEditor(RepositorioUsuario repositorioUsuario) {
 		this.repositorioUsuario = repositorioUsuario;
